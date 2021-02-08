@@ -1,8 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useCocktails } from "../context/CocktailContext";
 import Like from "./Like";
 
-const Cocktail = ({ id, name, image, glass, info, fav }) => {
+const Cocktail = ({ id, name, image, glass, info }) => {
+  const { favCocktailsIds } = useCocktails();
+
+  const favourite = favCocktailsIds.some((item) => item.id === id);
+
   return (
     <article className="cocktail">
       <div className="img-container">
@@ -17,7 +22,7 @@ const Cocktail = ({ id, name, image, glass, info, fav }) => {
         <Link to={`/cocktail/${id}`} className="btn btn-primary btn-details">
           details
         </Link>
-        <Like fav={fav} id={id} />
+        <Like fav={favourite} id={id} />
       </div>
     </article>
   );

@@ -1,27 +1,15 @@
 import React from "react";
 
-import { useGlobalContext } from "../context-legacy";
 import Loading from "../components/Loading";
 import Cocktail from "../components/Cocktail";
+import { useCocktails } from "../context/CocktailContext";
 
 const FavDrinks = () => {
-  const {
-    favDrinks,
-    favCocktailsIds,
-    setFavCocktailsIds,
-    loading,
-  } = useGlobalContext();
+  const { cocktails, favCocktailsIds, loading } = useCocktails();
 
-  const handleFavCocktail = (id) => {
-    const newFavCocktailsIds = favCocktailsIds;
-    const index = newFavCocktailsIds.indexOf(id);
-    if (index > -1) {
-      newFavCocktailsIds.splice(index, 1);
-    } else {
-      newFavCocktailsIds.push(id);
-    }
-    setFavCocktailsIds(newFavCocktailsIds);
-  };
+  const favDrinks = favCocktailsIds.map((item) => {
+    return cocktails.find((cocktail) => cocktail.id === item.id);
+  });
 
   if (loading) {
     return <Loading />;

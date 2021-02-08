@@ -2,11 +2,16 @@ import React from "react";
 import Loading from "../components/Loading";
 import { useParams, Link } from "react-router-dom";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import Like from "../components/Like";
+import { useCocktails } from "../context/CocktailContext";
 
 const SingleCocktail = () => {
   const { id } = useParams();
   const [loading, setLoading] = React.useState(false);
   const [cocktail, setCocktail] = React.useState(null);
+  const { favCocktailsIds } = useCocktails();
+
+  const favourite = favCocktailsIds.some((item) => item.id === id);
 
   React.useEffect(() => {
     setLoading(true);
@@ -75,6 +80,7 @@ const SingleCocktail = () => {
     return (
       <section className="section cocktail-section">
         <h2 className="section-title">{name}</h2>
+        <Like fav={favourite} id={id} className="btn btn-primary btn-home" />
         <div className="drink">
           <img src={image} alt={name}></img>
           <div className="drink-info">

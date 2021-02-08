@@ -15,6 +15,7 @@ const Navbar = () => {
           <li>
             <Link to="/"> Search</Link>
             <RandomCocktail />
+            <Link to="/favourite"> Favourite</Link>
             <Link to="/about"> About</Link>
           </li>
         </ul>

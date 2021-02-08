@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useCallback } from "react";
+import React, { useContext, useState, useCallback } from "react";
 // import { fetchCocktails } from "../services/cocktaildbService";
 
 const CocktailsContext = React.createContext();
@@ -14,7 +14,6 @@ export function CocktailsProvider({ children }) {
   const [searchTerm, setSearchTerm] = useState("a");
   const [cocktails, setCocktails] = useState([]);
   const [favCocktailsIds, setFavCocktailsIds] = useState([]);
-  const [savedCocktails, setSavedCocktails] = useState([]);
 
   const fetchCocktails = useCallback(async () => {
     setLoading(true);
@@ -39,7 +38,6 @@ export function CocktailsProvider({ children }) {
             image: strDrinkThumb,
             info: strAlcoholic,
             glass: strGlass,
-            fav: false,
           };
         });
 
@@ -55,60 +53,13 @@ export function CocktailsProvider({ children }) {
   }, [searchTerm]);
 
   function saveCocktail(id) {
-    let newFavCocktailsIds = favCocktailsIds;
-    let newSavedCocktails = savedCocktails;
-    let newCocktails = cocktails;
-
-    let indexFav = newFavCocktailsIds.indexOf(id);
-    let indexCocktails = newCocktails.findIndex((item) => item.id === id);
-    if (!favCocktailsIds.includes(id)) {
-      newFavCocktailsIds.push(id);
-      setFavCocktailsIds(newFavCocktailsIds);
-      console.log(favCocktailsIds);
-      const foundCocktail = cocktails.find((item) => {
-        return item.id === id;
-      });
-      newSavedCocktails.push(foundCocktail);
-      setSavedCocktails(newSavedCocktails);
-      console.log(savedCocktails);
-      newCocktails = cocktails.map((item) =>
-        item.id === id ? { ...item, fav: true } : item
-      );
-      setCocktails(newCocktails);
-      console.log(cocktails);
+    if (favCocktailsIds.some((item) => item.id === id)) {
+      const deleted = favCocktailsIds.filter((item) => item.id !== id);
+      setFavCocktailsIds(deleted);
     } else {
-      newCocktails = cocktails.map((item) =>
-        item.id === id ? { ...item, fav: false } : item
-      );
-      newFavCocktailsIds = favCocktailsIds.filter((item) => item !== id);
-      //   setFavCocktailsIds(newFavCocktailsIds);
-      console.log(newCocktails);
-      console.log(newFavCocktailsIds);
-      //   indexFav = newFavCocktailsIds.indexOf(id);
-      //   indexCocktails = newCocktails.findIndex((item) => item.id === id);
-      //   newSavedCocktails = savedCocktails.filter((item) => {
-      //     return item.id !== id;
-      //   });
-      //   setSavedCocktails(newSavedCocktails);
-      //   newCocktails[indexCocktails].fav = false;
-      //   setCocktails(newCocktails);
+      const saved = [...favCocktailsIds, { id }];
+      setFavCocktailsIds(saved);
     }
-
-    //   const newFavCocktailsIds = favCocktailsIds;
-    //   const newSavedCocktails = savedCocktails;
-    //   const newCocktails = cocktails;
-    //   const index = newCocktails.findIndex((item) => item.id === id);
-    //   if (favCocktailsIds.includes(id)) {
-    //     newFavCocktailsIds.filter((cocktail) => cocktail !== id);
-    //     newSavedCocktails.filter((cocktail) => cocktail.id !== id);
-    //     newCocktails[index].fav = false;
-    //   } else {
-    //     newFavCocktailsIds.push(id);
-    //     const newCocktail = cocktails.find((item) => {
-    //       return item.id === id;
-    //     });
-    //     newSavedCocktails.push(newCocktail);
-    //     newCocktails[index].fav = true;
   }
 
   return (
@@ -117,7 +68,6 @@ export function CocktailsProvider({ children }) {
         loading,
         cocktails,
         favCocktailsIds,
-        savedCocktails,
         setSearchTerm,
         fetchCocktails,
         saveCocktail,

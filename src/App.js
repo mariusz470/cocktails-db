@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import About from "./pages/About";
 import Details from "./pages/Details";
 import Error from "./pages/Error";
+import FavDrinks from "./pages/FavDrinks";
 import Home from "./pages/Home";
 
 function App() {
@@ -17,6 +18,9 @@ function App() {
         </Route>
         <Route path="/about">
           <About />
+        </Route>
+        <Route path="/favourite">
+          <FavDrinks />
         </Route>
         <Route path="/cocktail/:id">
           <Details />
