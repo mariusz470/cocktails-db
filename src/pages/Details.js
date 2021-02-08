@@ -9,7 +9,7 @@ const SingleCocktail = () => {
   const { id } = useParams();
   const [loading, setLoading] = React.useState(false);
   const [cocktail, setCocktail] = React.useState(null);
-  const { favCocktailsIds } = useCocktails();
+  const { favCocktailsIds, saveFavCocktail } = useCocktails();
 
   const favourite = favCocktailsIds.some((item) => item.id === id);
 
@@ -77,6 +77,13 @@ const SingleCocktail = () => {
       instructions,
       ingredients,
     } = cocktail;
+    saveFavCocktail({
+      id,
+      name,
+      image,
+      glass,
+      info,
+    });
     return (
       <section className="section cocktail-section">
         <h2 className="section-title">{name}</h2>

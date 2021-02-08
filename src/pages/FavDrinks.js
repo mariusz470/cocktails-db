@@ -5,10 +5,10 @@ import Cocktail from "../components/Cocktail";
 import { useCocktails } from "../context/CocktailContext";
 
 const FavDrinks = () => {
-  const { cocktails, favCocktailsIds, loading } = useCocktails();
+  const { savedFavCocktails, favCocktailsIds, loading } = useCocktails();
 
   const favDrinks = favCocktailsIds.map((item) => {
-    return cocktails.find((cocktail) => cocktail.id === item.id);
+    return savedFavCocktails.find((cocktail) => cocktail.id === item.id);
   });
 
   if (loading) {

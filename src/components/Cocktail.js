@@ -4,9 +4,16 @@ import { useCocktails } from "../context/CocktailContext";
 import Like from "./Like";
 
 const Cocktail = ({ id, name, image, glass, info }) => {
-  const { favCocktailsIds } = useCocktails();
+  const { favCocktailsIds, saveFavCocktail } = useCocktails();
 
   const favourite = favCocktailsIds.some((item) => item.id === id);
+  saveFavCocktail({
+    id,
+    name,
+    image,
+    glass,
+    info,
+  });
 
   return (
     <article className="cocktail">

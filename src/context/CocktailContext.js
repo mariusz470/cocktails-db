@@ -14,6 +14,7 @@ export function CocktailsProvider({ children }) {
   const [searchTerm, setSearchTerm] = useState("a");
   const [cocktails, setCocktails] = useState([]);
   const [favCocktailsIds, setFavCocktailsIds] = useState([]);
+  const [savedFavCocktails, setSavedFavCocktails] = useState([]);
 
   const fetchCocktails = useCallback(async () => {
     setLoading(true);
@@ -52,7 +53,7 @@ export function CocktailsProvider({ children }) {
     }
   }, [searchTerm]);
 
-  function saveCocktail(id) {
+  function saveCocktailId(id) {
     if (favCocktailsIds.some((item) => item.id === id)) {
       const deleted = favCocktailsIds.filter((item) => item.id !== id);
       setFavCocktailsIds(deleted);
@@ -62,15 +63,25 @@ export function CocktailsProvider({ children }) {
     }
   }
 
+  function saveFavCocktail(cocktail) {
+    if (savedFavCocktails.some((item) => item.id === cocktail.id)) {
+      return;
+    } else {
+      setSavedFavCocktails([...savedFavCocktails, cocktail]);
+    }
+  }
+
   return (
     <CocktailsContext.Provider
       value={{
         loading,
         cocktails,
         favCocktailsIds,
+        savedFavCocktails,
+        saveFavCocktail,
         setSearchTerm,
         fetchCocktails,
-        saveCocktail,
+        saveCocktailId,
       }}
     >
       {children}

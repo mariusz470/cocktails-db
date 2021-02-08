@@ -5,13 +5,12 @@ import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import { useCocktails } from "../context/CocktailContext";
 
 const Like = ({ id, fav }) => {
-  const { saveCocktail, favCocktailsIds } = useCocktails();
+  const { saveCocktailId } = useCocktails();
 
   const [like, setLike] = useState(fav);
 
   const likeButtonHandler = () => {
-    saveCocktail(id);
-    console.log(favCocktailsIds);
+    saveCocktailId(id);
     setLike(!like);
   };
 
